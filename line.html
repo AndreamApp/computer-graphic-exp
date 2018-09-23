@@ -1,0 +1,403 @@
+<html>
+
+<!--TODO: point_view;-->
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        .row {
+            display: inline-block;
+            align-items: start;
+        }
+        .highlight {
+            background: #f04444;
+            color: #f0f8ff;
+            transition:.1s;
+        }
+        .pixel {
+            display: block;
+            text-align: center;
+            vertical-align: middle;
+            width: 10px;
+            height: 10px;
+            line-height: 10px;
+            margin: 1px;
+            transition-property: background-color;
+            transition-duration: .1s;
+        }
+        .pixel_large {
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+        }
+        .pixel_medium {
+            width: 10px;
+            height: 10px;
+            line-height: 10px;
+        }
+        .pixel_small {
+            width: 5px;
+            height: 5px;
+            line-height: 5px;
+        }
+        .pixel_really_small {
+            width: 1px;
+            height: 1px;
+            line-height: 1px;
+        }
+        .pixel:hover {
+            background: #f04444;
+        }
+        .pixel_dark {
+            background: #666;
+        }
+        .pixel_axis {
+            background: #333;
+        }
+        .pixel_light {
+            background: #fff;
+        }
+        .log_list_item{
+            font-size: 18px;
+            z-index:100;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding:6px;
+            margin: 8px;
+        }
+        .log_list_item:hover {
+            background: #f04444;
+            color: #f0f8ff;
+            transition:.1s;
+        }
+        .status_bar{
+            display:block;
+            position:absolute;
+            font-size: 18px;
+            z-index:100;
+            background-color:white;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding:8px;
+            color: #555;
+            top:20px;
+            left:20px;
+            transition:1s;
+        }
+        #screen {
+            font-family: Consolas,serif;
+        }
+        .input_coor {
+            width: 40px;
+        }
+        #container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        #left {
+            display: inline-block;
+        }
+        #right {
+            display: inline-block;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+
+<div id="screen">
+    <div id="container">
+        <table id="left">
+            <tr v-for="row in matrix" class="row">
+                <template v-for="pix in row">
+                    <td :class="[ { pixel: true },
+                     { pixel_dark: pix.color === 0 }, { pixel_light: pix.color === 1 }, { pixel_axis: pix.color === -1 },
+                     { pixel_large: range <= 15 }, { pixel_medium: range > 15 && range <= 25 },
+                      { pixel_small: range > 25 && range <= 40 },
+                      { pixel_really_small: range > 40 },
+                      ]"
+                        @mouseover="hoverPix(pix)">
+                    </td>
+                </template>
+            </tr>
+        </table>
+        <span id="bar" class="status_bar">
+            {{ ("(" + highlight_pix.x + ", " + highlight_pix.y + ")") }}
+        </span>
+        <div id="right">
+            <div>
+                width: <input class="input_coor" type="text" v-model="range">
+                delay: <input class="input_coor" type="text" v-model="delay">
+            </div>
+            <div>
+                x1: <input class="input_coor" type="number" v-model.number="x1">
+                y1: <input class="input_coor" type="number" v-model.number="y1">
+                x2: <input class="input_coor" type="number" v-model.number="x2">
+                y2: <input class="input_coor" type="number" v-model.number="y2">
+                Algo:
+                <select v-model="algorithm">
+                    <option>DDA</option>
+                    <option>MidPoint</option>
+                    <option>Bresenham</option>
+                </select>
+                <input type="button" value="Run" @click="run">
+            </div>
+            <div v-for="log_item in log_list" :class="[ { log_list_item: true }, { highlight: log_item.highlight } ]">
+                {{ log_item.log }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script>
+    let screen = new Vue({
+        el: '#screen',
+        data: {
+            matrix: [],
+            delay: 50,
+            x1: 0,
+            y1: 0,
+            x2: 16,
+            y2: 18,
+            highlight_pix: {x: 0, y:0},
+            algorithm: 'DDA',
+            log_list: []
+        },
+        computed: {
+            range: {
+                get: function() {
+                    return Math.floor(this.dim / 2);
+                },
+                set: function(value) {
+                    if(value > 50) value = 50;
+                    this.dim = value * 2 + 1;
+                }
+            },
+            dim: {
+                get: function() {
+                    return this.matrix.length
+                },
+                set: function (length) {
+                    let matrix = [];
+                    let L = Math.floor(length / 2);
+                    for(let i = -L; i <= L; i++){
+                        let row = [];
+                        for(let j = -L; j <= L; j++){
+                            row.push({
+                                x: i,
+                                y: j,
+                                color: 0
+                            });
+                        }
+                        matrix.push(row);
+                    }
+                    this.matrix = matrix;
+                    this.clear();
+                }
+            }
+        },
+        methods: {
+            clear: function () {
+                this.log_list = [];
+                let L = this.matrix.length;
+                let mid = Math.floor(L / 2);
+                for(let i = 0; i < L; i++) {
+                    for (let j = 0; j < L; j++) {
+                        this.matrix[i][j] = {
+                            x: i - mid,
+                            y: mid - j,
+                            color: (i === mid || j === mid) ? -1 : 0
+                        }
+                    }
+                }
+                this.$forceUpdate();
+            },
+            hoverPix: function(pix){
+                this.highlight_pix = pix;
+                for(let i = 0; i < this.log_list.length; i++){
+                    this.log_list[i].highlight = this.highlight_pix.x === this.log_list[i].pix.x
+                        && this.highlight_pix.y === this.log_list[i].pix.y;
+                    Vue.set(this.log_list, i, this.log_list[i]);
+                }
+            },
+            sleep: function (ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            },
+            __drawpixel: function(pix) {
+                let L = this.dim;
+                let x = Math.floor(pix.x + L / 2);
+                let y = L - Math.floor(pix.y + L / 2) - 1;
+                if(x >= 0 && y >= 0 && x < L && y < L){
+                    Vue.set(this.matrix[x], y, pix);
+                    return true;
+                }
+                return false;
+            },
+            drawpixel: async function(x, y, color, reversed = false) {
+                let pix = {
+                    x: reversed ? y : x,
+                    y: reversed ? x : y,
+                    color: color
+                };
+
+                let drawed = this.__drawpixel(pix);
+                if(drawed && this.delay > 0){
+                    await this.sleep(this.delay);
+                }
+            },
+            drawline_dda: async function(x1, y1, x2, y2, color) {
+                let dm = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)); // 迭代次数
+                let dx = (x2 - x1) / dm; // x步长
+                let dy = (y2 - y1) / dm; // y步长
+                let x = x1 + 0.5;
+                let y = y1 + 0.5;
+                const self = this;
+                function log(){
+                    self.log_list.push({
+                        pix: {
+                            x: Math.floor(x),
+                            y: Math.floor(y),
+                            color: color
+                        },
+                        log: 'x = ' + x.toFixed(2) + ', y = ' + y.toFixed(2) +
+                        ', dx = ' + dx.toFixed(2) + ', dy = ' + dy.toFixed(2)
+                    });
+                }
+                for(let i = 0; i <= dm; i++){
+                    log();
+                    await this.drawpixel(Math.floor(x), Math.floor(y), color);
+                    x += dx;
+                    y += dy;
+                }
+            },
+            drawline_mid: async function(x1, y1, x2, y2, color) {
+                let a, b, d, x, y, flag = 0;
+                const self = this;
+                function log(){
+                    let _x = flag ? y : x;
+                    let _y = flag ? x : y;
+                    self.log_list.push({
+                        pix: {
+                            x: _x,
+                            y: _y,
+                            color: color
+                        },
+                        log: 'x = ' + _x + ', y = ' + _y +
+                        ', d = ' + d.toFixed(2)
+                    });
+                }
+                if(Math.abs(x2 - x1) < Math.abs(y2 - y1)){
+                    // 斜率大于1，交换坐标
+                    [x1, y1] = [y1, x1];
+                    [x2, y2] = [y2, x2];
+                    flag = 1;
+                }
+                if(x1 > x2){
+                    // 交换左右坐标
+                    [x1, x2] = [x2, x1];
+                    [y1, y2] = [y2, y1];
+                }
+                a = y1 - y2;
+                b = x2 - x1;
+                d = a + b / 2;
+                if(y1 < y2){
+                    x = x1; y = y1;
+                    log();
+                    await this.drawpixel(x, y, color, flag);
+                    while(x < x2){
+                        if(d < 0) {
+                            x++; y++; d = d+a+b;
+                        }
+                        else{
+                            x++; d += a;
+                        }
+                        log();
+                        await this.drawpixel(x, y, color, flag);
+                    }
+                }
+                else{
+                    x = x2; y = y2;
+                    log();
+                    await this.drawpixel(x, y, color, flag);
+                    while(x > x1){
+                        if(d < 0){
+                            x--; y++; d = d-a+b;
+                        }
+                        else{
+                            x--; d -= a;
+                        }
+
+                        log();
+                        await this.drawpixel(x, y, color, flag);
+                    }
+                }
+            },
+            drawline_bresenham: async function(x1, y1, x2, y2, color) {
+                // await this.drawpixel(x1, y1, color);
+                let dx = Math.abs(x2 - x1), dy = Math.abs(y2 - y1);
+                let flag = 0;
+                // 将斜率变为 0 < |k| < 1
+                if(dx < dy){
+                    flag = 1;
+                    [x1, y1] = [y1, x1];
+                    [x2, y2] = [y2, x2];
+                    [dx, dy] = [dy, dx];
+                }
+                let tx = (x2 - x1) > 0 ? 1 : -1;
+                let ty = (y2 - y1) > 0 ? 1 : -1;
+                let curx = x1, cury = y1;
+                let dS = 2 * dy, dT = 2 * (dy - dx);
+                let d = dS - dx;
+
+                const self = this;
+                function log(){
+                    let _x = flag ? cury : curx;
+                    let _y = flag ? curx : cury;
+                    self.log_list.push({
+                        pix: {
+                            x: _x,
+                            y: _y,
+                            color: color
+                        },
+                        log: 'x = ' + _x + ', y = ' + _y +
+                        ', d = ' + d.toFixed(2)
+                    });
+                }
+                log();
+                await this.drawpixel(curx, cury, color, flag);
+                while(curx !== x2) {
+                    if(d < 0) {
+                        d += dS;
+                    }
+                    else {
+                        cury += ty;
+                        d += dT;
+                    }
+                    curx += tx;
+                    log();
+                    await this.drawpixel(curx, cury, color, flag);
+                }
+            },
+            run: function() {
+                this.clear();
+                if('DDA' === this.algorithm){
+                    this.drawline_dda(this.x1, this.y1, this.x2, this.y2, 1);
+                }
+                else if('MidPoint' === this.algorithm){
+                    this.drawline_mid(this.x1, this.y1, this.x2, this.y2, 1);
+                }
+                else if('Bresenham' === this.algorithm){
+                    this.drawline_bresenham(this.x1, this.y1, this.x2, this.y2, 1);
+                }
+            }
+        }
+    });
+    screen.range = 15;
+</script>
+
+</html>
