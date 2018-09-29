@@ -9,21 +9,7 @@ let screen = new Vue({
         screen_view: 'Grid',
         width: 31,
         delay: 50,
-        x1: 0,
-        y1: 0,
-        x2: 16,
-        y2: 18,
-        x0: 0,
-        y0: 0,
-        r: 10,
-        ellipse_x0: 0,
-        ellipse_y0: 0,
-        ellipse_a: 10,
-        ellipse_b: 6,
         highlight_pix: {x: 0, y: 0},
-        algo_line: 'DDA',
-        algo_circle: 'MidPoint',
-        log_list: []
     },
     computed: {
         view: {
@@ -108,12 +94,12 @@ let screen = new Vue({
                 this.__clear_canvas();
             }
         },
-        hoverPix: function(pix){
+        hover_pix: function(pix){
             this.highlight_pix = pix;
-            for(let i = 0; i < this.log_list.length; i++){
-                this.log_list[i].highlight = this.highlight_pix.x === this.log_list[i].pix.x
-                    && this.highlight_pix.y === this.log_list[i].pix.y;
-                Vue.set(this.log_list, i, this.log_list[i]);
+            for(let i = 0; i < panel.log_list.length; i++){
+                panel.log_list[i].highlight = this.highlight_pix.x === panel.log_list[i].pix.x
+                    && this.highlight_pix.y === panel.log_list[i].pix.y;
+                Vue.set(panel.log_list, i, panel.log_list[i]);
             }
         },
         __drawpixel_grid: function(pix) {

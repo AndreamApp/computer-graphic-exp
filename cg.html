@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<div id="container">
+    <div id="screen">
+        <div class="panel_item">
+            view:
+            <select v-model="view">
+                <option>Grid</option>
+                <option>Canvas</option>
+            </select>
+            width: <input class="input_coor" type="text" v-model="range">
+            delay: <input class="input_coor" type="text" v-model="delay">
+        </div>
+        <table v-if="view === 'Grid'" class="inline">
+            <tr v-for="row in matrix" class="row">
+                <template v-for="pix in row">
+                    <td :class="[ { pixel: true },
+                     { pixel_dark: pix.color === 0 }, { pixel_light: pix.color === 1 }, { pixel_axis: pix.color === -1 },
+                     { pixel_large: range <= 15 }, { pixel_medium: range > 15 && range <= 25 },
+                     { pixel_small: range > 25 && range <= 40 },
+                     { pixel_really_small: range > 40 },
+                      ]"
+                        @mouseover="hover_pix(pix)">
+                    </td>
+                </template>
+            </tr>
+        </table>
+        <canvas v-else-if="view === 'Canvas'" id="canvas" width="600px" height="600px"></canvas>
+        <span v-if="view === 'Grid'" id="bar" class="status_bar">
+            {{ ("(" + highlight_pix.x + ", " + highlight_pix.y + ")") }}
+        </span>
+    </div>
+    <div id="panel">
+        <div class="panel_item">
+            x1: <input class="input_coor" type="number" v-model.number="x1">
+            y1: <input class="input_coor" type="number" v-model.number="y1">
+            x2: <input class="input_coor" type="number" v-model.number="x2">
+            y2: <input class="input_coor" type="number" v-model.number="y2">
+            algo:
+            <select v-model="algo_line">
+                <option>DDA</option>
+                <option>MidPoint</option>
+                <option>Bresenham</option>
+            </select>
+            <input type="button" value="Line" @click="line">
+        </div>
+        <div class="panel_item">
+            x0: <input class="input_coor" type="number" v-model.number="x0">
+            y0: <input class="input_coor" type="number" v-model.number="y0">
+            r: <input class="input_coor" type="number" v-model.number="r">
+            algo:
+            <select v-model="algo_circle">
+                <option>MidPoint</option>
+                <option>Bresenham</option>
+            </select>
+            <input type="button" value="Circle" @click="circle">
+        </div>
+        <div class="panel_item">
+            x0: <input class="input_coor" type="number" v-model.number="ellipse_x0">
+            y0: <input class="input_coor" type="number" v-model.number="ellipse_y0">
+            a: <input class="input_coor" type="number" v-model.number="ellipse_a">
+            b: <input class="input_coor" type="number" v-model.number="ellipse_b">
+            <input type="button" value="Ellipse" @click="ellipse">
+        </div>
+        <div style="overflow-y: auto; height: 80%">
+            <div v-for="log_item in log_list" :class="[ { log_list_item: true }, { highlight: log_item.highlight } ]">
+                {{ log_item.log }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="vue.js"></script>
+<script src="screen.js"></script>
+<script src="panel.js"></script>
+<script src="cg_algo_line.js"></script>
+<script src="cg_algo_circle.js"></script>
+
+</html>

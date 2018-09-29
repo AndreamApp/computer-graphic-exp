@@ -5,7 +5,7 @@ async function drawline_dda (x1, y1, x2, y2, color) {
     let x = x1 + 0.5;
     let y = y1 + 0.5;
     function log(){
-        screen.log_list.push({
+        panel.log_list.push({
             pix: {
                 x: Math.floor(x),
                 y: Math.floor(y),
@@ -27,7 +27,7 @@ async function drawline_mid (x1, y1, x2, y2, color) {
     function log(){
         let _x = flag ? y : x;
         let _y = flag ? x : y;
-        screen.log_list.push({
+        panel.log_list.push({
             pix: {
                 x: _x,
                 y: _y,
@@ -103,7 +103,7 @@ async function drawline_bresenham (x1, y1, x2, y2, color) {
     function log(){
         let _x = flag ? cury : curx;
         let _y = flag ? curx : cury;
-        screen.log_list.push({
+        panel.log_list.push({
             pix: {
                 x: _x,
                 y: _y,

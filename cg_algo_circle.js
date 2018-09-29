@@ -21,7 +21,7 @@ async function draw_circle_mid(x0, y0, r, color) {
     let d = 1 - r;
 
     function log(){
-        screen.log_list.push({
+        panel.log_list.push({
             pix: {
                 x: x,
                 y: y,
@@ -55,7 +55,7 @@ async function draw_circle_bresenham(x0, y0, r, color) {
     let HD, DV;
 
     function log(){
-        screen.log_list.push({
+        panel.log_list.push({
             pix: {
                 x: x,
                 y: y,
