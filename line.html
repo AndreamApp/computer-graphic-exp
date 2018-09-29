@@ -21,7 +21,7 @@
                 </template>
             </tr>
         </table>
-        <canvas v-else-if="view === 'Canvas'" id="canvas" width="600" height="600"></canvas>
+        <canvas v-else-if="view === 'Canvas'" id="canvas" width="600px" height="600px"></canvas>
         <span v-if="view === 'Grid'" id="bar" class="status_bar">
             {{ ("(" + highlight_pix.x + ", " + highlight_pix.y + ")") }}
         </span>
@@ -41,12 +41,30 @@
                 x2: <input class="input_coor" type="number" v-model.number="x2">
                 y2: <input class="input_coor" type="number" v-model.number="y2">
                 algo:
-                <select v-model="algorithm">
+                <select v-model="algo_line">
                     <option>DDA</option>
                     <option>MidPoint</option>
                     <option>Bresenham</option>
                 </select>
-                <input type="button" value="Run" @click="run">
+                <input type="button" value="Line" @click="line">
+            </div>
+            <div>
+                x0: <input class="input_coor" type="number" v-model.number="x0">
+                y0: <input class="input_coor" type="number" v-model.number="y0">
+                r: <input class="input_coor" type="number" v-model.number="r">
+                algo:
+                <select v-model="algo_circle">
+                    <option>MidPoint</option>
+                    <option>Bresenham</option>
+                </select>
+                <input type="button" value="Circle" @click="circle">
+            </div>
+            <div>
+                x0: <input class="input_coor" type="number" v-model.number="ellipse_x0">
+                y0: <input class="input_coor" type="number" v-model.number="ellipse_y0">
+                a: <input class="input_coor" type="number" v-model.number="ellipse_a">
+                b: <input class="input_coor" type="number" v-model.number="ellipse_b">
+                <input type="button" value="Ellipse" @click="ellipse">
             </div>
             <div style="overflow-y: auto; height: 80%">
                 <div v-for="log_item in log_list" :class="[ { log_list_item: true }, { highlight: log_item.highlight } ]">
