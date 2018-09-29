@@ -31,7 +31,6 @@ async function draw_circle_mid(x0, y0, r, color) {
             ', delta = ' + d
         });
     }
-    await screen.drawpixel(x0, y0, color);
     while(x < y) {
         log();
         await drawpixel_eight_way(x0, y0, x, y, color);
@@ -67,7 +66,6 @@ async function draw_circle_bresenham(x0, y0, r, color) {
             ', DV = ' + DV
         });
     }
-    await screen.drawpixel(x0, y0, color);
     while(y > x) {
         await drawpixel_eight_way(x0, y0, x, y, color);
         HD = 2 * d + 2 * y - 1;
