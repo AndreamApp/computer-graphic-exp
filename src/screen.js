@@ -18,7 +18,7 @@ let screen = new Vue({
             },
             set: function(value) {
                 this.screen_view = value;
-
+                setTimeout(this.clear, 0);
             }
         },
         range: {
@@ -94,14 +94,6 @@ let screen = new Vue({
                 this.__clear_canvas();
             }
         },
-        hover_pix: function(pix){
-            this.highlight_pix = pix;
-            for(let i = 0; i < panel.log_list.length; i++){
-                panel.log_list[i].highlight = this.highlight_pix.x === panel.log_list[i].pix.x
-                    && this.highlight_pix.y === panel.log_list[i].pix.y;
-                Vue.set(panel.log_list, i, panel.log_list[i]);
-            }
-        },
         __drawpixel_grid: function(pix) {
             let L = this.dim;
             let x = Math.floor(pix.x + L / 2);
@@ -144,32 +136,14 @@ let screen = new Vue({
                 await sleep(this.delay);
             }
         },
-        line: async function() {
-            this.clear();
-            if('DDA' === this.algo_line){
-                await drawline_dda(this.x1, this.y1, this.x2, this.y2, 1);
-            }
-            else if('MidPoint' === this.algo_line){
-                await drawline_mid(this.x1, this.y1, this.x2, this.y2, 1);
-            }
-            else if('Bresenham' === this.algo_line){
-                await drawline_bresenham(this.x1, this.y1, this.x2, this.y2, 1);
+        hover_pix: function(pix){
+            this.highlight_pix = pix;
+            for(let i = 0; i < panel.log_list.length; i++){
+                panel.log_list[i].highlight = this.highlight_pix.x === panel.log_list[i].pix.x
+                    && this.highlight_pix.y === panel.log_list[i].pix.y;
+                Vue.set(panel.log_list, i, panel.log_list[i]);
             }
         },
-        circle: async function() {
-            this.clear();
-            if('MidPoint' === this.algo_circle){
-                await draw_circle_mid(this.x0, this.y0, this.r, 1);
-            }
-            else if('Bresenham' === this.algo_circle){
-                await draw_circle_bresenham(this.x0, this.y0, this.r, 1);
-            }
-        },
-        ellipse: async function() {
-            this.clear();
-            await draw_ellipse(this.ellipse_x0, this.ellipse_y0, this.ellipse_a, this.ellipse_b, 1);
-        },
-
     }
 });
 screen.range = 15;

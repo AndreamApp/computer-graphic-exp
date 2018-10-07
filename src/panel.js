@@ -6,16 +6,17 @@ let panel = new Vue({
         y1: 0,
         x2: 16,
         y2: 18,
-        x0: 0,
-        y0: 0,
-        r: 10,
+        circle_x0: 0,
+        circle_y0: 0,
+        circle_r: 10,
         ellipse_x0: 0,
         ellipse_y0: 0,
         ellipse_a: 10,
         ellipse_b: 6,
         algo_line: 'DDA',
         algo_circle: 'MidPoint',
-        log_list: []
+        object: 'line',
+        log_list: [],
     },
     computed: {
     },
@@ -39,15 +40,26 @@ let panel = new Vue({
         circle: async function() {
             this.clear();
             if('MidPoint' === this.algo_circle){
-                await draw_circle_mid(this.x0, this.y0, this.r, 1);
+                await draw_circle_mid(this.circle_x0, this.circle_y0, this.circle_r, 1);
             }
             else if('Bresenham' === this.algo_circle){
-                await draw_circle_bresenham(this.x0, this.y0, this.r, 1);
+                await draw_circle_bresenham(this.circle_x0, this.circle_y0, this.circle_r, 1);
             }
         },
         ellipse: async function() {
             this.clear();
             await draw_ellipse(this.ellipse_x0, this.ellipse_y0, this.ellipse_a, this.ellipse_b, 1);
+        },
+        draw: async function() {
+            if('line' === this.object) {
+                await this.line();
+            }
+            else if('circle' === this.object) {
+                await this.circle();
+            }
+            else if('ellipse' === this.object) {
+                await this.ellipse();
+            }
         },
     }
 });
