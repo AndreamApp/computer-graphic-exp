@@ -73,7 +73,10 @@
             b: <input class="input_coor" type="number" v-model.number="ellipse_b">
         </div>
         <div v-if="object == 'polygon'" class="panel_item">
-            ← please select points on the screen
+            <select v-model="algo_polygon">
+                <option>Recursive</option>
+                <option>ScanLine</option>
+            </select>
         </div>
         <button class="object-draw-btn" @click="draw">Draw</button>
         <div style="overflow-y: auto; height: 80%">

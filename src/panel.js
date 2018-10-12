@@ -19,6 +19,7 @@ let panel = new Vue({
         poligon_state: STATE_FINISHED,
         algo_line: 'DDA',
         algo_circle: 'MidPoint',
+        algo_polygon: 'Recursive',
         myobject: 'line',
         log_list: [],
     },
@@ -74,6 +75,7 @@ let panel = new Vue({
             }
         },
         onclick: async function(pix) {
+            if(this.object !== 'polygon') return;
             if(STATE_PREPARE === this.poligon_state){
                 this.polygon_points.push(pix);
                 let L = this.polygon_points.length;
@@ -86,7 +88,12 @@ let panel = new Vue({
                 }
             }
             else if(STATE_PENDING === this.poligon_state){
-                await fill_polygon_seed(pix.x, pix.y, 1);
+                if('Recursive' === this.algo_polygon) {
+                    await fill_polygon_seed(pix.x, pix.y, 1);
+                }
+                else if('ScanLine' === this.algo_polygon){
+                    await fill_polygon_scan(pix.x, pix.y, 1);
+                }
                 this.poligon_state = STATE_FINISHED;
             }
             else if(STATE_FINISHED === this.poligon_state) {

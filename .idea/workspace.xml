@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="057ac3df-be4b-4609-bdf4-4f458d0dde61" name="Default" comment="[Add] canvas drawpixel">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/cg_algo_polygon.js" />
+    <list default="true" id="057ac3df-be4b-4609-bdf4-4f458d0dde61" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/cg.html" afterPath="$PROJECT_DIR$/src/cg.html" />
-      <change beforePath="$PROJECT_DIR$/src/cg_algo_circle.js" afterPath="$PROJECT_DIR$/src/cg_algo_circle.js" />
-      <change beforePath="$PROJECT_DIR$/src/css/style.css" afterPath="$PROJECT_DIR$/src/css/style.css" />
+      <change beforePath="$PROJECT_DIR$/src/cg_algo_polygon.js" afterPath="$PROJECT_DIR$/src/cg_algo_polygon.js" />
       <change beforePath="$PROJECT_DIR$/src/panel.js" afterPath="$PROJECT_DIR$/src/panel.js" />
-      <change beforePath="$PROJECT_DIR$/src/screen.js" afterPath="$PROJECT_DIR$/src/screen.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,8 +22,8 @@
       <file leaf-file-name="cg.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cg.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+            <state relative-caret-position="272">
+              <caret line="76" column="33" lean-forward="false" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -35,20 +32,20 @@
       <file leaf-file-name="screen.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/screen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-550">
-              <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="21" />
+            <state relative-caret-position="-1540">
+              <caret line="11" column="32" lean-forward="false" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="panel.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="panel.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/panel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+            <state relative-caret-position="220">
+              <caret line="94" column="48" lean-forward="false" selection-start-line="94" selection-start-column="48" selection-end-line="94" selection-end-column="48" />
               <folding>
-                <element signature="e#1189#1279#0" expanded="false" />
+                <element signature="e#1224#1314#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -57,18 +54,18 @@
       <file leaf-file-name="cg_algo_circle.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cg_algo_circle.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-110">
+            <state relative-caret-position="-506">
               <caret line="98" column="24" lean-forward="false" selection-start-line="98" selection-start-column="24" selection-end-line="98" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cg_algo_polygon.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cg_algo_polygon.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cg_algo_polygon.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="352">
+              <caret line="16" column="32" lean-forward="false" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -119,9 +116,9 @@
         <option value="$PROJECT_DIR$/cg_algo_circle.js" />
         <option value="$PROJECT_DIR$/src/css/style.css" />
         <option value="$PROJECT_DIR$/src/cg_algo_circle.js" />
-        <option value="$PROJECT_DIR$/src/cg.html" />
         <option value="$PROJECT_DIR$/src/screen.js" />
         <option value="$PROJECT_DIR$/src/cg_algo_polygon.js" />
+        <option value="$PROJECT_DIR$/src/cg.html" />
         <option value="$PROJECT_DIR$/src/panel.js" />
       </list>
     </option>
@@ -254,7 +251,7 @@
       <workItem from="1539139788715" duration="258000" />
       <workItem from="1539232854224" duration="1298000" />
       <workItem from="1539237389989" duration="10996000" />
-      <workItem from="1539324836811" duration="1176000" />
+      <workItem from="1539324836811" duration="4282000" />
     </task>
     <task id="LOCAL-00001" summary="[Add] canvas drawpixel">
       <created>1537773472459</created>
@@ -263,11 +260,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537773472459</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[Add] seed fill polygon">
+      <created>1539326037631</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1539326037631</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65829000" />
+    <option name="totallyTimeSpent" value="68935000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -319,7 +323,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="[Add] canvas drawpixel" />
-    <option name="LAST_COMMIT_MESSAGE" value="[Add] canvas drawpixel" />
+    <MESSAGE value="[Add] seed fill polygon" />
+    <option name="LAST_COMMIT_MESSAGE" value="[Add] seed fill polygon" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -402,7 +407,7 @@
         <state relative-caret-position="990">
           <caret line="45" column="89" lean-forward="false" selection-start-line="45" selection-start-column="89" selection-end-line="45" selection-end-column="89" />
           <folding>
-            <element signature="e#1189#1279#0" expanded="false" />
+            <element signature="e#1224#1314#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -428,7 +433,7 @@
         <state relative-caret-position="990">
           <caret line="45" column="89" lean-forward="false" selection-start-line="45" selection-start-column="89" selection-end-line="45" selection-end-column="89" />
           <folding>
-            <element signature="e#1189#1279#0" expanded="false" />
+            <element signature="e#1224#1314#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -484,14 +489,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cg.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="93" column="28" lean-forward="false" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
@@ -500,27 +497,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/screen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-550">
-          <caret line="11" column="21" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/panel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-          <folding>
-            <element signature="e#1189#1279#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cg_algo_circle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-110">
+        <state relative-caret-position="-506">
           <caret line="98" column="24" lean-forward="false" selection-start-line="98" selection-start-column="24" selection-end-line="98" selection-end-column="24" />
           <folding />
         </state>
@@ -528,9 +507,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cg_algo_polygon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="352">
+          <caret line="16" column="32" lean-forward="false" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cg.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="76" column="33" lean-forward="false" selection-start-line="76" selection-start-column="24" selection-end-line="76" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/screen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1540">
+          <caret line="11" column="32" lean-forward="false" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/panel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="94" column="48" lean-forward="false" selection-start-line="94" selection-start-column="48" selection-end-line="94" selection-end-column="48" />
+          <folding>
+            <element signature="e#1224#1314#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
