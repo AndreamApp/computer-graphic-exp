@@ -92,6 +92,45 @@ async function draw_circle_bresenham(x0, y0, r, color) {
 
 async function draw_ellipse(x0, y0, a, b, color) {
     let x = 0, y = b;
+    let d = b*b - a*a*b + a*a/4;
+    function log() {
+        panel.log_list.push({
+            pix: { x: x, y: y, color: color },
+            log: 'x = ' + x + ', y = ' + y +
+            ', delta = ' + d
+        });
+    }
+    while(a*a*y > b*b*x) {
+        await drawpixel_four_way(x0, y0, x, y, color);
+        log();
+        if(d < 0){
+            d += b*b*(2*x+3);
+            x++;
+        }
+        else{
+            d += b*b*(2*x+3) +a*a*(2-2*y);
+            x++;
+            y--;
+        }
+    }
+    d = b*b*(x*x+x) + b*b/4 + a*a*(y-1)*(y-1) - a*a*b*b;
+    while(y >= 0){
+        await drawpixel_four_way(x0, y0, x, y, color);
+        log();
+        if(d < 0){
+            d += b*b*(2*x+2) + a*a*(3-2*y);
+            x++;
+            y--;
+        }
+        else{
+            d += a*a*(3-2*y);
+            y--;
+        }
+    }
+}
+
+async function draw_ellipse_v1(x0, y0, a, b, color) {
+    let x = 0, y = b;
     let d = 0;
     while(a*a*y > b*b*x) {
         await drawpixel_four_way(x0, y0, x, y, color);

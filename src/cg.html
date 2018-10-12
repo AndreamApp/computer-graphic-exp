@@ -13,7 +13,7 @@
             <span v-if="view === 'Grid'" id="bar" class="status_bar">
                 {{ ("(" + highlight_pix.x + ", " + highlight_pix.y + ")")}}</span>
             view:
-            <select class="picker" v-model="view">
+            <select v-model="view">
                 <option>Grid</option>
                 <option>Canvas</option>
             </select>
@@ -29,7 +29,8 @@
                      { pixel_small: range > 25 && range <= 40 },
                      { pixel_really_small: range > 40 },
                       ]"
-                        @mouseover="hover_pix(pix)">
+                        @click="onclick(pix)"
+                        @mouseover="onhover(pix); ">
                     </td>
                 </template>
             </tr>
@@ -41,6 +42,7 @@
             <button class="object-draw-btn" @click="object = 'line'">Line</button>
             <button class="object-draw-btn" @click="object = 'circle'">Circle</button>
             <button class="object-draw-btn" @click="object = 'ellipse'">Ellipse</button>
+            <button class="object-draw-btn" @click="object = 'polygon'">Polygon</button>
         </div>
         <div v-if="object == 'line'" class="panel_item">
             x1: <input class="input_coor" type="number" v-model.number="x1">
@@ -48,7 +50,7 @@
             x2: <input class="input_coor" type="number" v-model.number="x2">
             y2: <input class="input_coor" type="number" v-model.number="y2">
             algo:
-            <select class="picker" v-model="algo_line">
+            <select v-model="algo_line">
                 <option>DDA</option>
                 <option>MidPoint</option>
                 <option>Bresenham</option>
@@ -59,7 +61,7 @@
             y0: <input class="input_coor" type="number" v-model.number="circle_y0">
             r: <input class="input_coor" type="number" v-model.number="circle_r">
             algo:
-            <select class="picker" v-model="algo_circle">
+            <select v-model="algo_circle">
                 <option>MidPoint</option>
                 <option>Bresenham</option>
             </select>
@@ -69,6 +71,9 @@
             y0: <input class="input_coor" type="number" v-model.number="ellipse_y0">
             a: <input class="input_coor" type="number" v-model.number="ellipse_a">
             b: <input class="input_coor" type="number" v-model.number="ellipse_b">
+        </div>
+        <div v-if="object == 'polygon'" class="panel_item">
+            ← please select points on the screen
         </div>
         <button class="object-draw-btn" @click="draw">Draw</button>
         <div style="overflow-y: auto; height: 80%">
@@ -86,5 +91,6 @@
 <script src="cg_algo_line.js"></script>
 <!--<script src="cg_algo_line_transform.js"></script>-->
 <script src="cg_algo_circle.js"></script>
+<script src="cg_algo_polygon.js"></script>
 
 </html>

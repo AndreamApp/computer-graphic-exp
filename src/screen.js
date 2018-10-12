@@ -136,6 +136,20 @@ let screen = new Vue({
                 await sleep(this.delay);
             }
         },
+        __getpixel_grid: function(_x, _y) {
+            let L = this.dim;
+            let x = Math.floor(_x + L / 2);
+            let y = L - Math.floor(_y + L / 2) - 1;
+            if(x >= 0 && y >= 0 && x < L && y < L){
+                return this.matrix[x][y].color;
+            }
+            return 0;
+        },
+        getpixel: function(x, y) {
+            if('Grid' === this.view){
+                return this.__getpixel_grid(x, y);
+            }
+        },
         hover_pix: function(pix){
             this.highlight_pix = pix;
             for(let i = 0; i < panel.log_list.length; i++){
@@ -143,6 +157,13 @@ let screen = new Vue({
                     && this.highlight_pix.y === panel.log_list[i].pix.y;
                 Vue.set(panel.log_list, i, panel.log_list[i]);
             }
+        },
+        onclick: async function(pix) {
+            await panel.onclick(pix);
+        },
+        onhover: async function(pix) {
+            await panel.onhover(pix);
+            this.hover_pix(pix);
         },
     }
 });

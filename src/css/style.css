@@ -80,7 +80,7 @@
     color: #555;
     transition:1s;
 }
-.picker {
+select {
     width: 150px;
     padding: 3px;
     font-family: Consolas, serif;
