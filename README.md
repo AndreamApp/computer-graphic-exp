@@ -8,19 +8,19 @@
 
 Draw Line with `DDA`, `Middle Point`, `Bresenham`
 
-![](../img/README0.png)
+![](screenshot/line.png)
 
 Draw Circle with `Middle Point`, `Bresenham`
 
-![](../img/README1.png)
+![](screenshot/circle.png)
 
 Draw Ellipse with `Middle Point`
 
-![](../img/README2.png)
+![](screenshot/ellipse.png)
 
 Fill Polygon with `Recursively Fill`, `Scan Line Fill`
 
-![](../img/README3.png)
+![](screenshot/polygon.png)
 
 ## Lisence
 
