@@ -34,20 +34,23 @@ async function fill_polygon_scan(_x, _y, _color){
         }
         // check the above scan line, push the rightest seed
         if(y > -L){
+            // 使用两个bool变量，把2n次border减少到n次border
+            let rightIsBorder = 1, thisIsBorder;
             for(let nx = r - 1; nx > l; nx--){
-                if(!border(nx, y - 1, color)){
+                if(!(thisIsBorder = border(nx, y - 1, color)) && rightIsBorder){
                     stack.push([nx, y - 1, color]);
-                    break;
                 }
+                rightIsBorder = thisIsBorder;
             }
         }
         // check the below scan line, push the rightest seed
         if(y < L){
+            let rightIsBorder = 1, thisIsBorder;
             for(let nx = r - 1; nx > l; nx--){
-                if(!border(nx, y + 1, color)){
+                if(!(thisIsBorder = border(nx, y + 1, color)) && rightIsBorder){
                     stack.push([nx, y + 1, color]);
-                    break;
                 }
+                rightIsBorder = thisIsBorder;
             }
         }
     }
