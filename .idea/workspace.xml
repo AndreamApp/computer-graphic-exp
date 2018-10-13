@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="057ac3df-be4b-4609-bdf4-4f458d0dde61" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/cg_algo_polygon.js" afterPath="$PROJECT_DIR$/src/cg_algo_polygon.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -62,8 +61,8 @@
       <file leaf-file-name="cg_algo_polygon.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cg_algo_polygon.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-89">
-              <caret line="40" column="51" lean-forward="false" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+            <state relative-caret-position="219">
+              <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -250,7 +249,7 @@
       <workItem from="1539232854224" duration="1298000" />
       <workItem from="1539237389989" duration="10996000" />
       <workItem from="1539324836811" duration="4894000" />
-      <workItem from="1539396850173" duration="2696000" />
+      <workItem from="1539396850173" duration="3395000" />
     </task>
     <task id="LOCAL-00001" summary="[Add] canvas drawpixel">
       <created>1537773472459</created>
@@ -273,11 +272,18 @@
       <option name="project" value="LOCAL" />
       <updated>1539329134965</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="[Fix] scan line fill polygon, thisIsBorder doesn't update because '&amp;&amp;' operator">
+      <created>1539400110695</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1539400110695</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72243000" />
+    <option name="totallyTimeSpent" value="72942000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -331,7 +337,8 @@
     <MESSAGE value="[Add] canvas drawpixel" />
     <MESSAGE value="[Add] seed fill polygon" />
     <MESSAGE value="[Add] scan line fill polygon" />
-    <option name="LAST_COMMIT_MESSAGE" value="[Add] scan line fill polygon" />
+    <MESSAGE value="[Fix] scan line fill polygon, thisIsBorder doesn't update because '&amp;&amp;' operator" />
+    <option name="LAST_COMMIT_MESSAGE" value="[Fix] scan line fill polygon, thisIsBorder doesn't update because '&amp;&amp;' operator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -539,8 +546,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cg_algo_polygon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-89">
-          <caret line="40" column="51" lean-forward="false" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+        <state relative-caret-position="219">
+          <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>
