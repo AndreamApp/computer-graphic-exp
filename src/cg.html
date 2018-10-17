@@ -5,6 +5,7 @@
         <!--响应式布局-->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="styles/monokai-sublime.css">
     </head>
 
 <div id="container">
@@ -116,6 +117,44 @@
             <pre>{{ crop_description }}</pre>
             <div>
                 <button class="object-draw-btn" @click="clear">Clear</button>
+                <button id="next_step" class="object-draw-btn">Next Step</button>
+            </div>
+            <div v-highlight>
+                <pre>{{ variable_info }}</pre>
+                <pre><code class="javascript hljs">async function clip_line(x1, y1, x2, y2, xmin, xmax, ymin, ymax) {
+    let x, y;
+    let code1 = encode(x1, y1, xmin, xmax, ymin, ymax);
+    let code2 = encode(x2, y2, xmin, xmax, ymin, ymax);
+    while(code1 !== 0 || code2 !== 0) {
+        if((code1 & code2) !== 0) return; // the same side of clip area
+        let code = code1 === 0 ? code2 : code1;
+        if(LEFT & code) {
+            x = xmin;
+            y = y1 + (y2 - y1) * (xmin - x1) / (x2 - x1);
+        }
+        else if(RIGHT & code) {
+            x = xmax;
+            y = y1 + (y2 - y1) * (xmax - x1) / (x2 - x1);
+        }
+        else if(BOTTOM & code) {
+            y = ymin;
+            x = x1 + (x2 - x1) * (ymin - y1) / (y2 - y1);
+        }
+        else if(TOP & code) {
+            y = ymax;
+            x = x1 + (x2 - x1) * (ymax - y1) / (y2 - y1);
+        }
+        if(code1 === code) {
+            [x1, y1] = [x, y];
+            code1 = encode(x, y, xmin, xmax, ymin, ymax);
+        }
+        else if(code2 === code) {
+            [x2, y2] = [x, y];
+            code2 = encode(x, y, xmin, xmax, ymin, ymax);
+        }
+    }
+    await drawline_dda(x1, y1, x2, y2, COLOR_HIGHLIGHT);
+}</code></pre>
             </div>
         </div>
         <div style="overflow-y: auto; height: 80%">
@@ -135,5 +174,9 @@
 <script src="cg_algo_circle.js"></script>
 <script src="cg_algo_polygon.js"></script>
 <script src="cg_algo_crop.js"></script>
+
+
+<script src="include/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 </html>

@@ -22,6 +22,7 @@ let panel = new Vue({
         crop_x1: null, crop_y1: null, crop_x2: null, crop_y2: null,
         crop_description: '请选择裁剪矩形左上顶点',
         crop_state: CROP_STATE_SCREEN_P1,
+        variable_info: '',
 
         algo_line: 'DDA',
         algo_circle: 'MidPoint',
@@ -180,14 +181,26 @@ let panel = new Vue({
             }
         },
         onhover: async function(pix) {
-            // if(!this.poligon_finished){
-            //     let L = this.polygon_points.length;
-            //     if(L >= 1){
-            //         screen.delay = 0;
-            //         await drawline_dda(this.polygon_points[L-1].x, this.polygon_points[L-1].y, screen.highlight_pix.x, screen.highlight_pix.y, 0);
-            //         await drawline_dda(this.polygon_points[L-1].x, this.polygon_points[L-1].y, pix.x, pix.y, 1);
-            //     }
-            // }
-        }
+        },
+        goto_line: async function(line_number) {
+            alert('goto line ' + line_number);
+        },
+        next_step: async function() {
+            return new Promise((resolve, reject) => {
+                let btn = document.getElementById('next_step');
+                function step(event) {
+                    btn.removeEventListener('click', step);
+                    resolve();
+                }
+                btn.addEventListener('click',step);
+            });
+        },
     }
 });
+
+Vue.directive('highlight',function (el) {
+    let blocks = el.querySelectorAll('pre code');
+    blocks.forEach((block)=>{
+      hljs.highlightBlock(block)
+    })
+  });
