@@ -1,3 +1,4 @@
+
 const T = [
     [[1, 0], [0, 1]], // x>0, y>0, k<=1, (2, 1) -> (2, 1)
     [[0, 1], [1, 0]], // x>0, y>0, k>1, (1, 2) -> (2, 1)
@@ -19,7 +20,7 @@ function trans(x1, y1, x2, y2){
     return [0, 0, x, y, w_];
 }
 
-async function drawline_dda (x1, y1, x2, y2, color) {
+async function __drawline_dda (x1, y1, x2, y2, color) {
     let dm = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)); // 迭代次数
     let dx = (x2 - x1) / dm; // x步长
     let dy = (y2 - y1) / dm; // y步长
@@ -43,8 +44,8 @@ async function drawline_dda (x1, y1, x2, y2, color) {
         y += dy;
     }
 }
-async function drawline_mid (_x1, _y1, _x2, _y2, color) {
-    [x1, y1, x2, y2, w_] = trans(_x1, _y1, _x2, _y2);
+async function __drawline_mid (_x1, _y1, _x2, _y2, color) {
+    let [x1, y1, x2, y2, w_] = trans(_x1, _y1, _x2, _y2);
 
     let a, b, d, x, y, tmpx, tmpy;
     function log(){
@@ -77,8 +78,8 @@ async function drawline_mid (_x1, _y1, _x2, _y2, color) {
     }
 }
 
-async function drawline_bresenham(_x1, _y1, _x2, _y2, color) {
-    [x1, y1, x2, y2, w_] = trans(_x1, _y1, _x2, _y2);
+async function __drawline_bresenham(_x1, _y1, _x2, _y2, color) {
+    let [x1, y1, x2, y2, w_] = trans(_x1, _y1, _x2, _y2);
 
     let dx = x2, dy = y2;
     let x = x1, y = y1;
@@ -109,6 +110,46 @@ async function drawline_bresenham(_x1, _y1, _x2, _y2, color) {
             d += 2 * (dy - dx);
         }
         x += 1;
+        log();
+        [tmpx, tmpy] = math.add(math.multiply([x, y], w_), [_x1, _y1]);
+        await screen.drawpixel(tmpx, tmpy, color);
+    }
+}
+
+async function __drawborder(_x1, _y1, _x2, _y2, color) {
+    let [x1, y1, x2, y2, w_] = trans(_x1, _y1, _x2, _y2);
+
+    let dx = x2, dy = y2;
+    let x = x1, y = y1;
+    let d = 2 * dy - dx;
+
+    function log(){
+        let _x = x;
+        let _y = y;
+        panel.log_list.push({
+            pix: {
+                x: _x,
+                y: _y,
+                color: color
+            },
+            log: 'x = ' + _x + ', y = ' + _y +
+            ', d = ' + d.toFixed(2)
+        });
+    }
+    log();
+    let tmpx, tmpy;
+    await screen.drawpixel(x, y, color);
+    while(x !== x2) {
+        x += 1;
+        if(d < 0) {
+            d += 2 * dy;
+        }
+        else {
+            [tmpx, tmpy] = math.add(math.multiply([x, y], w_), [_x1, _y1]);
+            await screen.drawpixel(tmpx, tmpy, color);
+            y += 1;
+            d += 2 * (dy - dx);
+        }
         log();
         [tmpx, tmpy] = math.add(math.multiply([x, y], w_), [_x1, _y1]);
         await screen.drawpixel(tmpx, tmpy, color);

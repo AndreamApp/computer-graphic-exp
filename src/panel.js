@@ -15,6 +15,7 @@ let panel = new Vue({
 
         polygon_points: [],
         polygon_description: '点选多边形顶点',
+        polygon_way: 'FourWay',
         polygon_state: POLYGON_STATE_PREPARE,
 
         crop_xmin: null, crop_xmax: null, crop_ymin: null, crop_ymax: null,
@@ -96,7 +97,8 @@ let panel = new Vue({
                     else {
                         this.polygon_description += '\n点击屏幕继续输入顶点，点击起点结束';
                     }
-                    await drawline_dda(this.polygon_points[L-2].x, this.polygon_points[L-2].y,
+                    let drawline = this.polygon_way === 'FourWay' ? drawline_dda : drawborder;
+                    await drawline(this.polygon_points[L-2].x, this.polygon_points[L-2].y,
                         this.polygon_points[L-1].x, this.polygon_points[L-1].y, COLOR_LIGHT)
                 }
             }
@@ -104,7 +106,12 @@ let panel = new Vue({
                 this.polygon_description = '种子点坐标为(' + pix.x + ', ' + pix.y + ')';
                 if('Recursive' === this.algo_polygon) {
                     this.polygon_description += '\n使用递归种子填充算法';
-                    await fill_polygon_seed(pix.x, pix.y, COLOR_LIGHT);
+                    if('FourWay' === this.polygon_way) {
+                        await fill_polygon_seed(pix.x, pix.y, COLOR_LIGHT);
+                    }
+                    else{
+                        await fill_polygon_seed_eight_way(pix.x, pix.y, COLOR_LIGHT);
+                    }
                 }
                 else if('ScanLine' === this.algo_polygon){
                     this.polygon_description += '\n使用扫描线种子填充算法';

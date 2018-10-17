@@ -2,7 +2,6 @@ function border(x, y, color) {
     return color === screen.getpixel(x, y);
 }
 
-
 async function fill_polygon_seed(x, y, color){
     let L = screen.dim;
     if(x >= -L && x <= L && y >= -L && y <= L && !border(x, y, color)){
@@ -11,6 +10,20 @@ async function fill_polygon_seed(x, y, color){
         await fill_polygon_seed(x, y + 1, color);
         await fill_polygon_seed(x - 1, y, color);
         await fill_polygon_seed(x, y - 1, color);
+    }
+}
+
+async function fill_polygon_seed_eight_way(x, y, color){
+    let L = screen.dim;
+    if(x >= -L && x <= L && y >= -L && y <= L && !border(x, y, color)){
+        await screen.drawpixel(x, y, color);
+        for(let i = -1; i <= 1; i++) {
+            for(let j = -1; j <= 1; j++) {
+                if(i !== 0 || j !== 0) {
+                    await fill_polygon_seed_eight_way(x + i, y + j, color);
+                }
+            }
+        }
     }
 }
 
