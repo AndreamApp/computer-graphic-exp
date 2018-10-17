@@ -23,6 +23,7 @@ let panel = new Vue({
         crop_description: '请选择裁剪矩形左上顶点',
         crop_state: CROP_STATE_SCREEN_P1,
         variable_info: '',
+        crop_source_code: null,
 
         algo_line: 'DDA',
         algo_circle: 'MidPoint',
@@ -183,7 +184,25 @@ let panel = new Vue({
         onhover: async function(pix) {
         },
         goto_line: async function(line_number) {
-            alert('goto line ' + line_number);
+            let code = document.getElementById('code');
+            if(!this.crop_source_code){
+                this.crop_source_code = code.innerText;
+            }
+            let lines = this.crop_source_code.split('\n');
+            let newcode = '';
+            for(let i = 0; i < lines.length; i++){
+                if(i === line_number - 1){
+                    newcode += '<mark>' + lines[i] + '</mark>';
+                }
+                else {
+                    newcode += lines[i];
+                }
+                if(i !== lines.length - 1) {
+                    newcode += '\n';
+                }
+            }
+            code.innerHTML = newcode;
+            hljs.highlightBlock(code);
         },
         next_step: async function() {
             return new Promise((resolve, reject) => {
@@ -201,6 +220,6 @@ let panel = new Vue({
 Vue.directive('highlight',function (el) {
     let blocks = el.querySelectorAll('pre code');
     blocks.forEach((block)=>{
-      hljs.highlightBlock(block)
+      hljs.highlightBlock(block);
     })
   });

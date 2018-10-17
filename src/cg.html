@@ -121,7 +121,7 @@
             </div>
             <div v-highlight>
                 <pre>{{ variable_info }}</pre>
-                <pre><code class="javascript hljs">async function clip_line(x1, y1, x2, y2, xmin, xmax, ymin, ymax) {
+                <pre><code id="code" class="javascript hljs">async function clip_line(x1, y1, x2, y2, xmin, xmax, ymin, ymax) {
     let x, y;
     let code1 = encode(x1, y1, xmin, xmax, ymin, ymax);
     let code2 = encode(x2, y2, xmin, xmax, ymin, ymax);
@@ -177,6 +177,5 @@
 
 
 <script src="include/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
 
 </html>

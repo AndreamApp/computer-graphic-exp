@@ -31,6 +31,7 @@ async function clip_line(x1, y1, x2, y2, xmin, xmax, ymin, ymax) {
         }
     }
     await drawline_dda(x1, y1, x2, y2, COLOR_HIGHLIGHT); await bp(ln());
+    panel.goto_line(-1);
     // breakpoint
     // goto related line in panel
     // refresh variable info
