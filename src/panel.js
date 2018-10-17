@@ -1,25 +1,31 @@
 
-const STATE_PREPARE = 0, STATE_PENDING = 1, STATE_FINISHED = 2;
+const POLYGON_STATE_PREPARE = 0, POLYGON_STATE_PENDING = 1,
+      POLYGON_STATE_FINISHED = 2;
+const CROP_STATE_CLEARED = 0, CROP_STATE_SCREEN_P1 = 1, CROP_STATE_SCREEN_P2 = 2,
+      CROP_STATE_LINE_P1 = 3, CROP_STATE_LINE_P2 = 4, CROP_STATE_PENDING = 5, CROP_STATE_FINISHED = 6;
 
 let panel = new Vue({
     el: '#panel',
     data: {
-        x1: 0,
-        y1: 0,
-        x2: 16,
-        y2: 18,
-        circle_x0: 0,
-        circle_y0: 0,
-        circle_r: 10,
-        ellipse_x0: 0,
-        ellipse_y0: 0,
-        ellipse_a: 10,
-        ellipse_b: 6,
+        x1: 0, y1: 0, x2: 16, y2: 18,
+        
+        circle_x0: 0, circle_y0: 0, circle_r: 10,
+
+        ellipse_x0: 0, ellipse_y0: 0, ellipse_a: 10, ellipse_b: 6,
+
         polygon_points: [],
-        poligon_state: STATE_FINISHED,
+        polygon_description: '点选多边形顶点',
+        polygon_state: POLYGON_STATE_PREPARE,
+
+        crop_xmin: null, crop_xmax: null, crop_ymin: null, crop_ymax: null,
+        crop_x1: null, crop_y1: null, crop_x2: null, crop_y2: null,
+        crop_description: '请选择裁剪矩形左上顶点',
+        crop_state: CROP_STATE_SCREEN_P1,
+
         algo_line: 'DDA',
         algo_circle: 'MidPoint',
         algo_polygon: 'Recursive',
+
         myobject: 'line',
         log_list: [],
     },
@@ -74,32 +80,103 @@ let panel = new Vue({
                 await this.ellipse();
             }
         },
-        onclick: async function(pix) {
-            if(this.object !== 'polygon') return;
-            if(STATE_PREPARE === this.poligon_state){
+        __onclick_polygon: async function(pix) {
+            if(POLYGON_STATE_PREPARE === this.polygon_state){
                 this.polygon_points.push(pix);
                 let L = this.polygon_points.length;
+                this.polygon_description = '';
+                for(let i = 0; i < L; i++){
+                    this.polygon_description += '(' + this.polygon_points[i].x + ', ' + this.polygon_points[i].y + ') ';
+                }
                 if(L > 1){
-                    if(pix.x === this.polygon_points[0].x && pix.y === this.polygon_points[0].y){
-                        this.poligon_state = STATE_PENDING;
+                    if(pix.x === this.polygon_points[0].x && pix.y === this.polygon_points[0].y) {
+                        this.polygon_description += '\n输入完毕，请在多边形内部选取一个像素作为种子点';
+                        this.polygon_state = POLYGON_STATE_PENDING;
+                    }
+                    else {
+                        this.polygon_description += '\n点击屏幕继续输入顶点，点击起点结束';
                     }
                     await drawline_dda(this.polygon_points[L-2].x, this.polygon_points[L-2].y,
                         this.polygon_points[L-1].x, this.polygon_points[L-1].y, 1)
                 }
             }
-            else if(STATE_PENDING === this.poligon_state){
+            else if(POLYGON_STATE_PENDING === this.polygon_state){
+                this.polygon_description = '种子点坐标为(' + pix.x + ', ' + pix.y + ')';
                 if('Recursive' === this.algo_polygon) {
+                    this.polygon_description += '\n使用递归种子填充算法';
                     await fill_polygon_seed(pix.x, pix.y, 1);
                 }
                 else if('ScanLine' === this.algo_polygon){
+                    this.polygon_description += '\n使用扫描线种子填充算法';
                     await fill_polygon_scan(pix.x, pix.y, 1);
                 }
-                this.poligon_state = STATE_FINISHED;
+                this.polygon_state = POLYGON_STATE_FINISHED;
+                this.polygon_description = '填充完毕';
             }
-            else if(STATE_FINISHED === this.poligon_state) {
+            else if(POLYGON_STATE_FINISHED === this.polygon_state) {
                 this.clear();
-                this.poligon_state = STATE_PREPARE;
-                this.onclick(pix);
+                this.polygon_state = POLYGON_STATE_PREPARE;
+                this.polygon_description = '屏幕已清空，请重新点选多边形顶点';
+            }
+        },
+        __onclick_crop: async function(pix) {
+            if(CROP_STATE_SCREEN_P1 === this.crop_state) {
+                this.crop_xmin = pix.x;
+                this.crop_ymax = pix.y;
+                this.crop_state = CROP_STATE_SCREEN_P2;
+                this.crop_description = '请选择裁剪矩形右下顶点';
+            }
+            else if(CROP_STATE_SCREEN_P2 === this.crop_state) {
+                if(pix.x === this.crop_xmin || pix.y === this.crop_ymax) {
+                    this.crop_description = '左上角和右下角顶点不能共线！请重新选择裁剪矩形右下顶点';
+                    return;
+                }
+                if(pix.x < this.crop_xmin || pix.y > this.crop_ymax) {
+                    this.crop_description = '必须满足xmax > xmin && ymax > ymin！请重新选择裁剪矩形右下顶点';
+                    return;
+                }
+                this.crop_xmax = pix.x;
+                this.crop_ymin = pix.y;
+                drawline_dda(this.crop_xmin, this.crop_ymax, this.crop_xmax, this.crop_ymax, 1);
+                drawline_dda(this.crop_xmax, this.crop_ymax, this.crop_xmax, this.crop_ymin, 1);
+                drawline_dda(this.crop_xmax, this.crop_ymin, this.crop_xmin, this.crop_ymin, 1);
+                drawline_dda(this.crop_xmin, this.crop_ymin, this.crop_xmin, this.crop_ymax, 1);
+                this.crop_state = CROP_STATE_LINE_P1;
+                this.crop_description = '请选择直线第一个顶点';
+            }
+            else if(CROP_STATE_LINE_P1 === this.crop_state) {
+                this.crop_x1 = pix.x;
+                this.crop_y1 = pix.y;
+                this.crop_state = CROP_STATE_LINE_P2;
+                this.crop_description = '请选择直线第二个顶点';
+            }
+            else if(CROP_STATE_LINE_P2 === this.crop_state) {
+                this.crop_x2 = pix.x;
+                this.crop_y2 = pix.y;
+                this.crop_state = CROP_STATE_PENDING;
+                this.crop_description = '正在裁剪并绘制直线';
+                await drawline_bresenham(this.crop_x1, this.crop_y1, this.crop_x2, this.crop_y2, 1);
+                await clip_line(this.crop_x1, this.crop_y1, this.crop_x2, this.crop_y2,
+                                                 this.crop_xmin, this.crop_xmax, this.crop_ymin, this.crop_ymax);
+                this.crop_state = CROP_STATE_FINISHED;
+                this.crop_description = '绘制完成';
+            }
+            else if(CROP_STATE_PENDING === this.crop_state) {
+            }
+            else if(CROP_STATE_FINISHED === this.crop_state) {
+                await this.clear();
+                this.crop_xmin = this.crop_ymin = this.crop_xmax = this.crop_ymax = null;
+                this.crop_x1 = this.crop_y1 = this.crop_x2 = this.crop_y2 = null;
+                this.crop_state = CROP_STATE_SCREEN_P1;
+                this.crop_description = '已清空屏幕。请选择裁剪矩形左上顶点';
+            }
+        },
+        onclick: async function(pix) {
+            if('polygon' === this.object) {
+                this.__onclick_polygon(pix);
+            }
+            else if('crop' === this.object){
+                this.__onclick_crop(pix);
             }
         },
         onhover: async function(pix) {

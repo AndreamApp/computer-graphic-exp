@@ -17,8 +17,8 @@
                 <option>Grid</option>
                 <option>Canvas</option>
             </select>
-            width: <input class="input_coor" type="text" v-model="range">
-            delay: <input class="input_coor" type="text" v-model="delay">
+            width: <input type="text" v-model="range">
+            delay: <input type="text" v-model="delay">
         </div>
         <table v-if="view === 'Grid'" class="inline">
             <tr v-for="row in matrix" class="row">
@@ -43,12 +43,13 @@
             <button class="object-draw-btn" @click="object = 'circle'">Circle</button>
             <button class="object-draw-btn" @click="object = 'ellipse'">Ellipse</button>
             <button class="object-draw-btn" @click="object = 'polygon'">Polygon</button>
+            <button class="object-draw-btn" @click="object = 'crop'">Crop</button>
         </div>
         <div v-if="object == 'line'" class="panel_item">
-            x1: <input class="input_coor" type="number" v-model.number="x1">
-            y1: <input class="input_coor" type="number" v-model.number="y1">
-            x2: <input class="input_coor" type="number" v-model.number="x2">
-            y2: <input class="input_coor" type="number" v-model.number="y2">
+            x1: <input type="number" v-model.number="x1">
+            y1: <input type="number" v-model.number="y1">
+            x2: <input type="number" v-model.number="x2">
+            y2: <input type="number" v-model.number="y2">
             algo:
             <select v-model="algo_line">
                 <option>DDA</option>
@@ -57,9 +58,9 @@
             </select>
         </div>
         <div v-if="object == 'circle'" class="panel_item">
-            x0: <input class="input_coor" type="number" v-model.number="circle_x0">
-            y0: <input class="input_coor" type="number" v-model.number="circle_y0">
-            r: <input class="input_coor" type="number" v-model.number="circle_r">
+            x0: <input type="number" v-model.number="circle_x0">
+            y0: <input type="number" v-model.number="circle_y0">
+            r: <input type="number" v-model.number="circle_r">
             algo:
             <select v-model="algo_circle">
                 <option>MidPoint</option>
@@ -67,16 +68,32 @@
             </select>
         </div>
         <div v-if="object == 'ellipse'" class="panel_item">
-            x0: <input class="input_coor" type="number" v-model.number="ellipse_x0">
-            y0: <input class="input_coor" type="number" v-model.number="ellipse_y0">
-            a: <input class="input_coor" type="number" v-model.number="ellipse_a">
-            b: <input class="input_coor" type="number" v-model.number="ellipse_b">
+            x0: <input type="number" v-model.number="ellipse_x0">
+            y0: <input type="number" v-model.number="ellipse_y0">
+            a: <input type="number" v-model.number="ellipse_a">
+            b: <input type="number" v-model.number="ellipse_b">
         </div>
         <div v-if="object == 'polygon'" class="panel_item">
+            <pre>{{ polygon_description }}</pre>
             <select v-model="algo_polygon">
                 <option>Recursive</option>
                 <option>ScanLine</option>
             </select>
+        </div>
+        <div v-if="object == 'crop'" class="panel_item">
+            <div>
+                xmin: <input type="number" v-model.number="crop_xmin">
+                ymin: <input type="number" v-model.number="crop_ymin">
+                xmax: <input type="number" v-model.number="crop_xmax">
+                ymax: <input type="number" v-model.number="crop_ymax">
+            </div>
+            <div>
+                x 1 : <input type="number" v-model.number="crop_x1">
+                y 1 : <input type="number" v-model.number="crop_y1">
+                x 2 : <input type="number" v-model.number="crop_x2">
+                y 2 : <input type="number" v-model.number="crop_y2">
+            </div>
+            <pre>{{ crop_description }}</pre>
         </div>
         <button class="object-draw-btn" @click="draw">Draw</button>
         <div style="overflow-y: auto; height: 80%">
@@ -95,5 +112,6 @@
 <!--<script src="cg_algo_line_transform.js"></script>-->
 <script src="cg_algo_circle.js"></script>
 <script src="cg_algo_polygon.js"></script>
+<script src="cg_algo_crop.js"></script>
 
 </html>

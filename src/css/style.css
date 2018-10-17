@@ -88,13 +88,17 @@ select {
     border-radius: 5px;
     border: 1px solid #66666666;
 }
-.input_coor {
+input {
     width: 50px;
     padding: 3px;
     font-family: Consolas, serif;
     font-size: 1em;
     border-radius: 5px;
     border: 1px solid #66666666;
+}
+pre {
+    font-family: Consolas, serif;
+    white-space: pre-wrap; /* 自动换行 */
 }
 
 .object-nav-bar {
@@ -159,6 +163,7 @@ select {
 #panel {
     display: inline-block;
     margin: 20px;
+    width: 50%;
 }
 .inline {
     display: inline-block;
