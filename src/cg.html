@@ -57,6 +57,10 @@
                 <option>MidPoint</option>
                 <option>Bresenham</option>
             </select>
+            <div>
+                <button class="object-draw-btn" @click="line">Draw</button>
+                <button class="object-draw-btn" @click="clear">Clear</button>
+            </div>
         </div>
         <div v-if="object == 'circle'" class="panel_item">
             x0: <input type="number" v-model.number="circle_x0">
@@ -67,15 +71,22 @@
                 <option>MidPoint</option>
                 <option>Bresenham</option>
             </select>
+            <div>
+                <button class="object-draw-btn" @click="circle">Draw</button>
+                <button class="object-draw-btn" @click="clear">Clear</button>
+            </div>
         </div>
         <div v-if="object == 'ellipse'" class="panel_item">
             x0: <input type="number" v-model.number="ellipse_x0">
             y0: <input type="number" v-model.number="ellipse_y0">
             a: <input type="number" v-model.number="ellipse_a">
             b: <input type="number" v-model.number="ellipse_b">
+            <div>
+                <button class="object-draw-btn" @click="ellipse">Draw</button>
+                <button class="object-draw-btn" @click="clear">Clear</button>
+            </div>
         </div>
         <div v-if="object == 'polygon'" class="panel_item">
-            <pre>{{ polygon_description }}</pre>
             <select v-model="algo_polygon">
                 <option>Recursive</option>
                 <option>ScanLine</option>
@@ -84,6 +95,10 @@
                 <option>FourWay</option>
                 <option>EightWay</option>
             </select>
+            <pre>{{ polygon_description }}</pre>
+            <div>
+                <button class="object-draw-btn" @click="clear">Clear</button>
+            </div>
         </div>
         <div v-if="object == 'crop'" class="panel_item">
             <div>
@@ -99,8 +114,10 @@
                 y 2 : <input type="number" v-model.number="crop_y2">
             </div>
             <pre>{{ crop_description }}</pre>
+            <div>
+                <button class="object-draw-btn" @click="clear">Clear</button>
+            </div>
         </div>
-        <button class="object-draw-btn" @click="draw">Draw</button>
         <div style="overflow-y: auto; height: 80%">
             <div v-for="log_item in log_list" :class="[ { log_list_item: true }, { highlight: log_item.highlight } ]">
                 {{ log_item.log }}

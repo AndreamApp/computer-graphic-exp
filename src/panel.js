@@ -27,23 +27,22 @@ let panel = new Vue({
         algo_circle: 'MidPoint',
         algo_polygon: 'Recursive',
 
-        myobject: 'line',
+        object: 'line',
         log_list: [],
-    },
-    computed: {
-        object: {
-            get: function() { return this.myobject; },
-            set: function(value) {
-                this.myobject = value;
-                if('polygon' === this.myobject){
-                }
-            },
-        }
     },
     methods: {
         clear: function() {
-            this.polygon_points = [];
-            this.poligon_finished = false;
+            if('polygon' === this.object) {
+                this.polygon_points = [];
+                this.polygon_state = POLYGON_STATE_PREPARE;
+                this.polygon_description = '屏幕已清空，请重新点选多边形顶点';
+            }
+            else if('crop' === this.object) {
+                this.crop_xmin = this.crop_ymin = this.crop_xmax = this.crop_ymax = null;
+                this.crop_x1 = this.crop_y1 = this.crop_x2 = this.crop_y2 = null;
+                this.crop_state = CROP_STATE_SCREEN_P1;
+                this.crop_description = '已清空屏幕。请选择裁剪矩形左上顶点';
+            }
             this.log_list = [];
             screen.clear();
         },
@@ -122,8 +121,6 @@ let panel = new Vue({
             }
             else if(POLYGON_STATE_FINISHED === this.polygon_state) {
                 this.clear();
-                this.polygon_state = POLYGON_STATE_PREPARE;
-                this.polygon_description = '屏幕已清空，请重新点选多边形顶点';
             }
         },
         __onclick_crop: async function(pix) {
@@ -172,10 +169,6 @@ let panel = new Vue({
             }
             else if(CROP_STATE_FINISHED === this.crop_state) {
                 await this.clear();
-                this.crop_xmin = this.crop_ymin = this.crop_xmax = this.crop_ymax = null;
-                this.crop_x1 = this.crop_y1 = this.crop_x2 = this.crop_y2 = null;
-                this.crop_state = CROP_STATE_SCREEN_P1;
-                this.crop_description = '已清空屏幕。请选择裁剪矩形左上顶点';
             }
         },
         onclick: async function(pix) {

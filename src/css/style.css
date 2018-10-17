@@ -131,8 +131,10 @@ pre {
     font-weight: 400;
     height: 3.15em;
     line-height: 2.75em;
-    min-width: 10em;
+    min-width: 8em;
     padding: 0 1.5em;
+    margin-top: 15px;
+    margin-bottom: 10px;
     text-align: center;
     text-decoration: none;
     white-space: nowrap;

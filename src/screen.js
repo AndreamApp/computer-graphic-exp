@@ -169,7 +169,7 @@ let screen = new Vue({
             this.hover_pix(pix);
         },
         leavehover: async function(pix) {
-            this.highlight_pix = { x: null, y: null, color: null };
+            this.highlight_pix = { x: '🙂', y: '🙃', color: null };
         },
     }
 });
