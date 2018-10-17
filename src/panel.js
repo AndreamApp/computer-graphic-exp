@@ -29,8 +29,19 @@ let panel = new Vue({
         algo_circle: 'MidPoint',
         algo_polygon: 'Recursive',
 
-        object: 'line',
+        myobject: 'line',
         log_list: [],
+    },
+    computed: {
+        object: {
+            get: function() {
+                return this.myobject;
+            },
+            set: function(value) {
+                this.myobject = value;
+                this.clear();
+            }
+        }
     },
     methods: {
         clear: function() {
@@ -44,6 +55,7 @@ let panel = new Vue({
                 this.crop_x1 = this.crop_y1 = this.crop_x2 = this.crop_y2 = null;
                 this.crop_state = CROP_STATE_SCREEN_P1;
                 this.crop_description = '已清空屏幕。请选择裁剪矩形左上顶点';
+                setTimeout(this.goto_line, 0, -1); // render syntax highlight
             }
             this.log_list = [];
             screen.clear();
@@ -217,9 +229,3 @@ let panel = new Vue({
     }
 });
 
-Vue.directive('highlight',function (el) {
-    let blocks = el.querySelectorAll('pre code');
-    blocks.forEach((block)=>{
-      hljs.highlightBlock(block);
-    })
-  });
