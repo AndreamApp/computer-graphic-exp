@@ -45,5 +45,5 @@ async function clip_line(x1, y1, x2, y2, xmin, xmax, ymin, ymax) {
         }
     }
     //return [x1, y1, x2, y2];
-    await drawline_dda(x1, y1, x2, y2, 0);
+    await drawline_dda(x1, y1, x2, y2, COLOR_HIGHLIGHT);
 }

@@ -24,13 +24,14 @@
             <tr v-for="row in matrix" class="row">
                 <template v-for="pix in row">
                     <td :class="[ { pixel: true },
-                     { pixel_dark: pix.color === 0 }, { pixel_light: pix.color === 1 }, { pixel_axis: pix.color === -1 },
                      { pixel_large: range <= 15 }, { pixel_medium: range > 15 && range <= 25 },
                      { pixel_small: range > 25 && range <= 40 },
                      { pixel_really_small: range > 40 },
                       ]"
+                        :style="{ background: (pix.x === highlight_pix.x && pix.y === highlight_pix.y) ? '#f04444' : pix.color }"
                         @click="onclick(pix)"
-                        @mouseover="onhover(pix); ">
+                        @mouseover="onhover(pix);"
+                        @mouseleave="leavehover(pix);">
                     </td>
                 </template>
             </tr>

@@ -7,6 +7,9 @@
     color: #f0f8ff;
     transition:.1s;
 }
+.pixel:hover {
+    background: #f04444;
+}
 .pixel {
     display: block;
     text-align: center;
@@ -14,6 +17,8 @@
     width: 10px;
     height: 10px;
     line-height: 10px;
+    border-top: 1px solid #6666;
+    border-left: 1px solid #6666;
     transition-property: background-color;
     transition-duration: .15s;
 }
@@ -39,21 +44,6 @@
 }
 .pixel:hover {
     background: #f04444;
-}
-.pixel_dark {
-    background: #666;
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-}
-.pixel_axis {
-    background: #333;
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-}
-.pixel_light {
-    background: #f0f0f0;
-    border-top: 1px solid #888;
-    border-left: 1px solid #888;
 }
 .log_list_item{
     font-size: 18px;

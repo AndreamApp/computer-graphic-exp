@@ -48,25 +48,25 @@ let panel = new Vue({
         },
         line: async function() {
             if('DDA' === this.algo_line){
-                await drawline_dda(this.x1, this.y1, this.x2, this.y2, 1);
+                await drawline_dda(this.x1, this.y1, this.x2, this.y2, COLOR_LIGHT);
             }
             else if('MidPoint' === this.algo_line){
-                await drawline_mid(this.x1, this.y1, this.x2, this.y2, 1);
+                await drawline_mid(this.x1, this.y1, this.x2, this.y2, COLOR_LIGHT);
             }
             else if('Bresenham' === this.algo_line){
-                await drawline_bresenham(this.x1, this.y1, this.x2, this.y2, 1);
+                await drawline_bresenham(this.x1, this.y1, this.x2, this.y2, COLOR_LIGHT);
             }
         },
         circle: async function() {
             if('MidPoint' === this.algo_circle){
-                await draw_circle_mid(this.circle_x0, this.circle_y0, this.circle_r, 1);
+                await draw_circle_mid(this.circle_x0, this.circle_y0, this.circle_r, COLOR_LIGHT);
             }
             else if('Bresenham' === this.algo_circle){
-                await draw_circle_bresenham(this.circle_x0, this.circle_y0, this.circle_r, 1);
+                await draw_circle_bresenham(this.circle_x0, this.circle_y0, this.circle_r, COLOR_LIGHT);
             }
         },
         ellipse: async function() {
-            await draw_ellipse(this.ellipse_x0, this.ellipse_y0, this.ellipse_a, this.ellipse_b, 1);
+            await draw_ellipse(this.ellipse_x0, this.ellipse_y0, this.ellipse_a, this.ellipse_b, COLOR_LIGHT);
         },
         draw: async function() {
             this.clear();
@@ -97,18 +97,18 @@ let panel = new Vue({
                         this.polygon_description += '\n点击屏幕继续输入顶点，点击起点结束';
                     }
                     await drawline_dda(this.polygon_points[L-2].x, this.polygon_points[L-2].y,
-                        this.polygon_points[L-1].x, this.polygon_points[L-1].y, 1)
+                        this.polygon_points[L-1].x, this.polygon_points[L-1].y, COLOR_LIGHT)
                 }
             }
             else if(POLYGON_STATE_PENDING === this.polygon_state){
                 this.polygon_description = '种子点坐标为(' + pix.x + ', ' + pix.y + ')';
                 if('Recursive' === this.algo_polygon) {
                     this.polygon_description += '\n使用递归种子填充算法';
-                    await fill_polygon_seed(pix.x, pix.y, 1);
+                    await fill_polygon_seed(pix.x, pix.y, COLOR_LIGHT);
                 }
                 else if('ScanLine' === this.algo_polygon){
                     this.polygon_description += '\n使用扫描线种子填充算法';
-                    await fill_polygon_scan(pix.x, pix.y, 1);
+                    await fill_polygon_scan(pix.x, pix.y, COLOR_LIGHT);
                 }
                 this.polygon_state = POLYGON_STATE_FINISHED;
                 this.polygon_description = '填充完毕';
@@ -137,10 +137,10 @@ let panel = new Vue({
                 }
                 this.crop_xmax = pix.x;
                 this.crop_ymin = pix.y;
-                drawline_dda(this.crop_xmin, this.crop_ymax, this.crop_xmax, this.crop_ymax, 1);
-                drawline_dda(this.crop_xmax, this.crop_ymax, this.crop_xmax, this.crop_ymin, 1);
-                drawline_dda(this.crop_xmax, this.crop_ymin, this.crop_xmin, this.crop_ymin, 1);
-                drawline_dda(this.crop_xmin, this.crop_ymin, this.crop_xmin, this.crop_ymax, 1);
+                drawline_dda(this.crop_xmin, this.crop_ymax, this.crop_xmax, this.crop_ymax, COLOR_LIGHT);
+                drawline_dda(this.crop_xmax, this.crop_ymax, this.crop_xmax, this.crop_ymin, COLOR_LIGHT);
+                drawline_dda(this.crop_xmax, this.crop_ymin, this.crop_xmin, this.crop_ymin, COLOR_LIGHT);
+                drawline_dda(this.crop_xmin, this.crop_ymin, this.crop_xmin, this.crop_ymax, COLOR_LIGHT);
                 this.crop_state = CROP_STATE_LINE_P1;
                 this.crop_description = '请选择直线第一个顶点';
             }
@@ -155,7 +155,7 @@ let panel = new Vue({
                 this.crop_y2 = pix.y;
                 this.crop_state = CROP_STATE_PENDING;
                 this.crop_description = '正在裁剪并绘制直线';
-                await drawline_bresenham(this.crop_x1, this.crop_y1, this.crop_x2, this.crop_y2, 1);
+                await drawline_bresenham(this.crop_x1, this.crop_y1, this.crop_x2, this.crop_y2, COLOR_LIGHT);
                 await clip_line(this.crop_x1, this.crop_y1, this.crop_x2, this.crop_y2,
                                                  this.crop_xmin, this.crop_xmax, this.crop_ymin, this.crop_ymax);
                 this.crop_state = CROP_STATE_FINISHED;

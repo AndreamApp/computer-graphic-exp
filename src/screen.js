@@ -2,6 +2,9 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const COLOR_AXIS = '#222222', COLOR_DARK = '#333333', COLOR_LIGHT = '#f0f0f0',
+    COLOR_HIGHLIGHT = '#f04444';
+
 let screen = new Vue({
     el: '#screen',
     data: {
@@ -9,7 +12,7 @@ let screen = new Vue({
         screen_view: 'Grid',
         width: 31,
         delay: 50,
-        highlight_pix: {x: 0, y: 0},
+        highlight_pix: { x: null, y: null, color: null },
     },
     computed: {
         view: {
@@ -64,7 +67,7 @@ let screen = new Vue({
                     this.matrix[i][j] = {
                         x: i - mid,
                         y: mid - j,
-                        color: (i === mid || j === mid) ? -1 : 0
+                        color: (i === mid || j === mid) ? COLOR_AXIS : COLOR_DARK
                     }
                 }
             }
@@ -164,6 +167,9 @@ let screen = new Vue({
         onhover: async function(pix) {
             await panel.onhover(pix);
             this.hover_pix(pix);
+        },
+        leavehover: async function(pix) {
+            this.highlight_pix = { x: null, y: null, color: null };
         },
     }
 });
